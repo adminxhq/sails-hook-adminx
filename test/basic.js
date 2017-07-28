@@ -1,4 +1,6 @@
 var Sails = require('sails').Sails;
+require('should');
+var request = require('supertest');
 
 describe('Basic tests ::', function() {
 
@@ -13,13 +15,14 @@ describe('Basic tests ::', function() {
 
     // Attempt to lift sails
     Sails().lift({
+      port: 1338,
       hooks: {
         // Load the hook
-        "your-hook-name": require('../'),
+        "adminx": require('../'),
         // Skip grunt (unless your hook uses it)
         "grunt": false
       },
-      log: {level: "error"}
+      log: {level: "verbose"}
     },function (err, _sails) {
       if (err) return done(err);
       sails = _sails;
@@ -43,4 +46,22 @@ describe('Basic tests ::', function() {
     return true;
   });
 
+
+  it('sails has admin config', function (done) {
+    sails.config.adminx.should.be.an.object;
+    sails.config.adminx.should.have.property('authEnabled');
+    sails.config.adminx.should.have.property('dataAuthToken').which.is.null();
+    done();
+  });
+
+  it('sails has route /adminx/app', function (done) {
+    request(sails.hooks.http.app)
+      .post('/adminx/app')
+      .expect(200)
+    ;
+    done();
+  });
+
 });
+
+

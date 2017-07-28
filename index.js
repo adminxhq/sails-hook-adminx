@@ -11,13 +11,11 @@ module.exports = function myHook(sails) {
 
   return {
 
-    // This function will be public
-    sayHi: function (name) {
-      console.log(greet(name));
-    },
-
     defaults: {
-
+      __configKey__: {
+        authEnabled: true,
+        dataAuthToken: null
+      }
     },
 
     configure: function() {
@@ -37,17 +35,29 @@ module.exports = function myHook(sails) {
     routes: {
       before: {
         'GET /*': function (req, res, next) {
-          hook.numRequestsSeen++;
+          // hook.numRequestsSeen++;
           return next();
+        },
+
+        '/adminx/app/config': function (req, res, next) {
+          var config = {
+            schemas: []
+          };
+          res.json(config);
         }
       },
       after: {
         'GET /*': function (req, res, next) {
-          hook.numUnhandledRequestsSeen++;
+          // hook.numUnhandledRequestsSeen++;
           return next();
         }
       }
-    }
+    },
+
+    // This function will be public
+    sayHi: function (name) {
+      console.log(greet(name));
+    },
 
   };
 

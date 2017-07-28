@@ -24,6 +24,8 @@
   "private": true,
   "devDependencies": {
     "mocha": "^3.4.2",
-    "sails": "^0.12.13"
+    "sails": "^0.12.13",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
   }
 }
