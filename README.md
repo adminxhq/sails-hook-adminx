@@ -1,7 +1,7 @@
 # sails-hook-adminx
 
-##### What is AdminX?
-AdminX is the fastest and most complete admin panel for Sails.js
+## What is AdminX?
+AdminX is a universal, fast and reliable admin panel
 
 ## Installation
 ```
