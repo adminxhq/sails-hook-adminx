@@ -1,0 +1,29 @@
+{
+  "name": "sails-hook-adminx",
+  "version": "0.0.0",
+  "description": "AdminX panel hook for Sails.js",
+  "keywords": [
+    "sails",
+    "hook",
+    "admin",
+    "panel"
+  ],
+  "main": "index.js",
+  "sails": {
+    "isHook": true
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/albertpeiro/sails-hook-adminx"
+  },
+  "author": {
+    "name": "Albert Peiró",
+    "email": "acordonet@gmail.com"
+  },
+  "private": true,
+  "devDependencies": {
+    "mocha": "^3.4.2",
+    "sails": "^0.12.13"
+  }
+}
