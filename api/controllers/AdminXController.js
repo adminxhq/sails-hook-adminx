@@ -57,6 +57,20 @@ module.exports = {
       .catch(res.badRequest);
   },
 
+  'item/create': function (req, res) {
+    var schema = req.param('schema');
+    var model = sails.models[schema];
+    var item = req.param('item');
+
+    // Validation
+    if (!model) return res.badRequest('schema doesn\'t exist');
+
+    model.create(item)
+      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(res.ok)
+      .catch(res.badRequest);
+  },
+
   'item/read': function (req, res) {
     var schema = req.param('schema');
     var model = sails.models[schema];
@@ -108,20 +122,6 @@ module.exports = {
     var serviceName = 'adminxaction_' + schema;
 
     sails.services[serviceName][action](id, item, data)
-      .then(res.ok)
-      .catch(res.badRequest);
-  },
-
-  'item/create': function (req, res) {
-    var schema = req.param('schema');
-    var model = sails.models[schema];
-    var item = req.param('item');
-
-    // Validation
-    if (!model) return res.badRequest('schema doesn\'t exist');
-
-    model.create(item)
-      .then(UtilResult.all) // Bypass 'protected' attrs
       .then(res.ok)
       .catch(res.badRequest);
   },

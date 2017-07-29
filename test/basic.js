@@ -66,6 +66,13 @@ describe('Basic tests ::', function() {
     });
   });
 
+  after(function (done) {
+    // Clear DB by reloading Sails ORM
+    sails.once('hook:orm:reloaded', done);
+    sails.emit('hook:orm:reload');
+    done();
+  });
+
   // After tests are complete, lower Sails
   after(function (done) {
 
@@ -116,6 +123,7 @@ describe('Basic tests ::', function() {
   });
 
   var schema = 'apple';
+  var item = { name: 'Macintosh' };
 
   it('/item/list no schema param', function (done) {
     request(httpApp)
@@ -133,8 +141,31 @@ describe('Basic tests ::', function() {
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
-        res.body.should.be.an.Object()
-          .and.have.property('items');
+        var data = res.body;
+
+        data.should.be.an.Object();
+        data.should.have.property('items');
+        data.should.have.property('pageIndex');
+        data.should.have.property('pageTotal');
+
+        var items = data.items;
+        items.should.be.an.Array();
+      })
+      .end(done)
+    ;
+  });
+
+  it('/item/create working', function (done) {
+    request(httpApp)
+      .get(path + '/item/create')
+      .query({ schema: schema, item: item })
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(200)
+      .expect(function (res) {
+        var data = res.body;
+        data.should.be.an.Object();
+
+        item = data;
       })
       .end(done)
     ;
@@ -149,50 +180,52 @@ describe('Basic tests ::', function() {
     ;
   });
 
-  it('working route /item/update', function (done) {
+  it('/item/update working', function (done) {
     request(httpApp)
       .get(path + '/item/update')
-      .query({ schema: schema })
+      .query({ schema: schema,  id: item.id, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
-        res.body.should.be.an.Object();
+        var data = res.body;
+        data.should.be.an.Object();
+        data.should.have.property('id').eql(item.id);
       })
       .end(done)
     ;
   });
 
-  it('working route /adminx/item/action', function (done) {
+  it('/item/action no schema', function (done) {
     request(httpApp)
       .get(path + '/item/action')
       .set(dataAuthHeaderName, dataAuthToken)
-      .expect(200)
-      .expect(function (res) {
-        res.body.should.be.an.Object();
-      })
+      .expect(400)
       .end(done)
     ;
   });
 
-  it('working route /adminx/item/create', function (done) {
+  it('/item/action working', function (done) {
     request(httpApp)
-      .get(path + '/item/create')
+      .get(path + '/item/action')
+      .query({ schema: schema,  id: item.id, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
-        res.body.should.be.an.Object();
+        var data = res.body;
+        data.should.be.an.Object();
       })
       .end(done)
     ;
   });
 
-  it('working route /adminx/item/delete', function (done) {
+  it('/item/delete working', function (done) {
     request(httpApp)
       .get(path + '/item/delete')
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
-        res.body.should.be.an.Object();
+        var data = res.body;
+        data.should.be.an.Object();
       })
       .end(done)
     ;
