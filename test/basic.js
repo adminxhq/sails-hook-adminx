@@ -28,7 +28,8 @@ describe('Basic tests ::', function() {
         grunt: false
       },
       paths: {
-        models: 'test/models' // This injects the models in the right way, exposing the Waterline ORM query functions
+        models: 'test/models', // This injects the models in the right way, exposing the Waterline ORM query functions
+        services: 'test/services'
       },
       connections: {
         testDiskDb: {
@@ -183,7 +184,7 @@ describe('Basic tests ::', function() {
   it('/item/update working', function (done) {
     request(httpApp)
       .get(path + '/item/update')
-      .query({ schema: schema,  id: item.id, item: item })
+      .query({ schema: schema, id: item.id, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
@@ -207,7 +208,7 @@ describe('Basic tests ::', function() {
   it('/item/action working', function (done) {
     request(httpApp)
       .get(path + '/item/action')
-      .query({ schema: schema,  id: item.id, item: item })
+      .query({ schema: schema, id: item.id, item: item, action: 'makeJuice', data: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
@@ -218,9 +219,19 @@ describe('Basic tests ::', function() {
     ;
   });
 
+  it('/item/delete no schema', function (done) {
+    request(httpApp)
+      .get(path + '/item/delete')
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(400)
+      .end(done)
+    ;
+  });
+
   it('/item/delete working', function (done) {
     request(httpApp)
       .get(path + '/item/delete')
+      .query({ schema: schema, id: item.id })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {

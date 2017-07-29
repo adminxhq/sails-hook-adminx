@@ -52,7 +52,7 @@ module.exports = {
             };
           });
       })
-      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(resultFilterAll)
       .then(res.ok)
       .catch(res.badRequest);
   },
@@ -66,7 +66,7 @@ module.exports = {
     if (!model) return res.badRequest('schema doesn\'t exist');
 
     model.create(item)
-      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(resultFilterAll)
       .then(res.ok)
       .catch(res.badRequest);
   },
@@ -81,7 +81,7 @@ module.exports = {
 
     model.findOneById(id)
       .populateAll()
-      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(resultFilterAll)
       .then(res.ok)
       .catch(res.badRequest);
   },
@@ -103,7 +103,7 @@ module.exports = {
         return model.findOneById(id)
           .populateAll();
       })
-      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(resultFilterAll) // Bypass 'protected' attrs
       .then(res.ok)
       .catch(res.badRequest);
   },
@@ -136,15 +136,14 @@ module.exports = {
 
     model.destroy(id)
       .then(_.last)
-      .then(UtilResult.all) // Bypass 'protected' attrs
+      .then(resultFilterAll) // Bypass 'protected' attrs
       .then(res.ok)
       .catch(res.badRequest);
   },
 
 };
 
-
-/** UTILS **/
+/** PRIVATE UTILS **/
 
 function prepareSchemaAttributes (model) {
   return _.merge(model.backoffice.attributes || {}, model._attributes);
@@ -169,4 +168,9 @@ function prepareSearchWhere (schema, query) {
   });
   // console.log(where);
   return where;
+}
+
+function resultFilterAll (object) {
+  //_.clone(value, [isDeep], [customizer], [thisArg])
+  return _.clone(object, true);
 }
