@@ -44,6 +44,43 @@ module.exports = function myHook(sails) {
             schemas: []
           };
           res.json(config);
+        },
+
+        '/adminx/item/list': function (req, res, next) {
+          var list = {
+            items: []
+          };
+          res.json(list);
+        },
+
+        '/adminx/item/read': function (req, res, next) {
+          var item = {
+          };
+          res.json(item);
+        },
+
+        '/adminx/item/update': function (req, res, next) {
+          var item = {
+          };
+          res.json(item);
+        },
+
+        '/adminx/item/action': function (req, res, next) {
+          var item = {
+          };
+          res.json(item);
+        },
+
+        '/adminx/item/create': function (req, res, next) {
+          var item = {
+          };
+          res.json(item);
+        },
+
+        '/adminx/item/delete': function (req, res, next) {
+          var item = {
+          };
+          res.json(item);
         }
       },
       after: {

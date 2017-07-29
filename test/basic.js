@@ -6,6 +6,7 @@ describe('Basic tests ::', function() {
 
   // Var to hold a running sails app instance
   var sails;
+  var httpApp;
 
   // Before running any tests, attempt to lift Sails
   before(function (done) {
@@ -26,6 +27,7 @@ describe('Basic tests ::', function() {
     },function (err, _sails) {
       if (err) return done(err);
       sails = _sails;
+      httpApp = sails.hooks.http.app;
       return done();
     });
   });
@@ -47,19 +49,67 @@ describe('Basic tests ::', function() {
   });
 
 
-  it('sails has admin config', function (done) {
-    sails.config.adminx.should.be.an.object;
+  it('sails has a valid admin config', function (done) {
+    sails.config.adminx.should.be.an.Object();
     sails.config.adminx.should.have.property('authEnabled');
     sails.config.adminx.should.have.property('dataAuthToken').which.is.null();
     done();
   });
 
-  it('sails has route /adminx/app', function (done) {
-    request(sails.hooks.http.app)
-      .post('/adminx/app')
-      .expect(200)
-    ;
-    done();
+  it('working route /adminx/app', function (done) {
+    request(httpApp)
+      .get('/adminx/app/config')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object()
+          .and.have.property('schemas');
+      });
+  });
+
+  it('working route /adminx/item/list', function (done) {
+    request(httpApp)
+      .get('/adminx/item/list')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object()
+          .and.have.property('items');
+      });
+  });
+
+  it('working route /adminx/item/update', function (done) {
+    request(httpApp)
+      .get('/adminx/item/update')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object();
+      });
+  });
+
+  it('working route /adminx/item/action', function (done) {
+    request(httpApp)
+      .get('/adminx/item/action')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object();
+      });
+  });
+
+  it('working route /adminx/item/create', function (done) {
+    request(httpApp)
+      .get('/adminx/item/create')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object();
+      });
+  });
+
+  it('working route /adminx/item/delete', function (done) {
+    request(httpApp)
+      .get('/adminx/item/delete')
+      .expect(200, done)
+      .expect(function (res) {
+        res.body.should.be.an.Object();
+      });
   });
 
 });
