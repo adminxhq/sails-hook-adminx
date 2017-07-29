@@ -59,57 +59,69 @@ describe('Basic tests ::', function() {
   it('working route /adminx/app', function (done) {
     request(httpApp)
       .get('/adminx/app/config')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
-        res.body.should.be.an.Object()
+        return res.body.should.be.an.Object()
           .and.have.property('schemas');
-      });
+      })
+      .end(done)
+    ;
   });
 
   it('working route /adminx/item/list', function (done) {
     request(httpApp)
       .get('/adminx/item/list')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object()
           .and.have.property('items');
-      });
+      })
+      .end(done)
+    ;
   });
 
   it('working route /adminx/item/update', function (done) {
     request(httpApp)
       .get('/adminx/item/update')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
-      });
+      })
+      .end(done)
+    ;
   });
 
   it('working route /adminx/item/action', function (done) {
     request(httpApp)
       .get('/adminx/item/action')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
-      });
+      })
+      .end(done)
+    ;
   });
 
   it('working route /adminx/item/create', function (done) {
     request(httpApp)
       .get('/adminx/item/create')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
-      });
+      })
+      .end(done)
+    ;
   });
 
   it('working route /adminx/item/delete', function (done) {
     request(httpApp)
       .get('/adminx/item/delete')
-      .expect(200, done)
+      .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
-      });
+      })
+      .end(done)
+    ;
   });
 
 });
