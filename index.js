@@ -28,7 +28,9 @@ module.exports = function myHook (sails) {
       // This allows us to add/modify values that users of the hook can retrieve.
       hook = this;
 
+      //TODO: check if sails has enabled an ORM or throw an Error/Warning
 
+      // Load controllers under ./api/controllers and services under ./services
       loader.injectAll({
       }, function(err) {
         // Signal that initialization of this hook is complete

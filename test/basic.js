@@ -5,11 +5,12 @@ var request = require('supertest');
 describe('Basic tests ::', function() {
 
   // Var to hold a running sails app instance
-  var sails;
-  var httpApp;
-  var loader;
+  var sails, httpApp, loader;
 
+  // Initialise test variables
+  var path = '/adminx';
   var dataAuthToken = '0123456';
+  var dataAuthHeaderName = 'adminx-data-auth-token';
 
   // Before running any tests, attempt to lift Sails
   before(function (done) {
@@ -22,18 +23,27 @@ describe('Basic tests ::', function() {
       port: 1338,
       hooks: {
         // Load the hook
-        "adminx": require('../'),
+        adminx: require('../'),
         // Skip grunt (unless your hook uses it)
-        "grunt": false
+        grunt: false
       },
-      globals: {
-        // _ : true,
-        // async: true,
-        // models: true,
-        // sails: true
+      paths: {
+        models: 'test/models' // This injects the models in the right way, exposing the Waterline ORM query functions
+      },
+      connections: {
+        testDiskDb: {
+          adapter: 'sails-disk'
+        }
+      },
+      models: {
+        connection: 'testDiskDb',
+        migrate: 'drop'
       },
       adminx: {
         dataAuthToken: dataAuthToken
+      },
+      globals: {
+        models: true
       },
       log: {level: "verbose"}
     },function (err, _sails) {
@@ -43,12 +53,16 @@ describe('Basic tests ::', function() {
       httpApp = sails.hooks.http.app;
 
       // Load test models
-      loader = require('sails-util-mvcsloader')(sails);
-      loader.injectAll({
-        models: __dirname + '/models' // Path to your test models
-      }, function(err) {
-        return done();
-      });
+      // loader = require('sails-util-mvcsloader')(sails);
+      // loader.adapt({
+      //   models: __dirname + '/models' // Path to your test models
+      // }, function(err) {
+      //   // After we load the models
+      //   // sails.once('hook:orm:reloaded', done);
+      //   // sails.emit('hook:orm:reload');
+      //   return done();
+      // });
+      return done();
     });
   });
 
@@ -79,19 +93,19 @@ describe('Basic tests ::', function() {
     done();
   });
 
-  it('route /adminx/app/config protected', function (done) {
+  it('/app/config auth-protected', function (done) {
     request(httpApp)
-      .get('/adminx/app/config')
-      .set('adminx-data-auth-token', 'BAD_TOKEN')
+      .get(path + '/app/config')
+      .set(dataAuthHeaderName, 'BAD_TOKEN')
       .expect(403)
       .end(done)
     ;
   });
 
-  it('working route /adminx/app/config', function (done) {
+  it('/app/config working', function (done) {
     request(httpApp)
-      .get('/adminx/app/config')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/app/config')
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         return res.body.should.be.an.Object()
@@ -101,10 +115,22 @@ describe('Basic tests ::', function() {
     ;
   });
 
-  it('working route /adminx/item/list', function (done) {
+  var schema = 'apple';
+
+  it('/item/list no schema param', function (done) {
     request(httpApp)
-      .get('/adminx/item/list')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/item/list')
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(400)
+      .end(done)
+    ;
+  });
+
+  it('/item/list working', function (done) {
+    request(httpApp)
+      .get(path + '/item/list')
+      .query({ schema: schema })
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object()
@@ -114,10 +140,20 @@ describe('Basic tests ::', function() {
     ;
   });
 
-  it('working route /adminx/item/update', function (done) {
+  it('/item/update no schema param', function (done) {
     request(httpApp)
-      .get('/adminx/item/update')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/item/update')
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(400)
+      .end(done)
+    ;
+  });
+
+  it('working route /item/update', function (done) {
+    request(httpApp)
+      .get(path + '/item/update')
+      .query({ schema: schema })
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
@@ -128,8 +164,8 @@ describe('Basic tests ::', function() {
 
   it('working route /adminx/item/action', function (done) {
     request(httpApp)
-      .get('/adminx/item/action')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/item/action')
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
@@ -140,8 +176,8 @@ describe('Basic tests ::', function() {
 
   it('working route /adminx/item/create', function (done) {
     request(httpApp)
-      .get('/adminx/item/create')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/item/create')
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();
@@ -152,20 +188,8 @@ describe('Basic tests ::', function() {
 
   it('working route /adminx/item/delete', function (done) {
     request(httpApp)
-      .get('/adminx/item/delete')
-      .set('adminx-data-auth-token', dataAuthToken)
-      .expect(200)
-      .expect(function (res) {
-        res.body.should.be.an.Object();
-      })
-      .end(done)
-    ;
-  });
-
-  it('working route /backoffice/item/delete', function (done) {
-    request(httpApp)
-      .get('/backoffice/item/delete')
-      .set('adminx-data-auth-token', dataAuthToken)
+      .get(path + '/item/delete')
+      .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         res.body.should.be.an.Object();

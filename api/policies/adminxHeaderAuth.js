@@ -1,5 +1,5 @@
 /**
- * backofficeHeaderAuth.js
+ * adminxHeaderAuth.js
  *
  * @description :: TODO: You might write a short summary of how this policy works here.
  * @docs        :: http://sailsjs.org/#!documentation/policies

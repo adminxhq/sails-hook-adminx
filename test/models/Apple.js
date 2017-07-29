@@ -21,7 +21,6 @@ module.exports = {
     ratings: { type: 'array' },
     tags: { type: 'array' },
     metadata: { type: 'json' },
-    grownBy: { model: 'tree' },
     relatedTo: { collection: 'apple' },
     description: { type: 'mediumtext' },
     history: { type: 'longtext' }
