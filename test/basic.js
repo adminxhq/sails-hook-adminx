@@ -71,6 +71,9 @@ describe('Basic tests ::', function() {
     // Clear DB by reloading Sails ORM
     sails.once('hook:orm:reloaded', done);
     sails.emit('hook:orm:reload');
+    // TODO: Keep an eye if the way to do this changes
+    // https://www.npmjs.com/package/sails-hook-orm#hookormreload
+    // sails.hooks.orm.reload();
     done();
   });
 
@@ -104,7 +107,7 @@ describe('Basic tests ::', function() {
   it('/app/config auth-protected', function (done) {
     request(httpApp)
       .get(path + '/app/config')
-      .set(dataAuthHeaderName, 'BAD_TOKEN')
+      .set(dataAuthHeaderName, 'BAD_TOKEN') // Adding a bad token
       .expect(403)
       .end(done)
     ;
@@ -146,8 +149,8 @@ describe('Basic tests ::', function() {
 
         data.should.be.an.Object();
         data.should.have.property('items');
-        data.should.have.property('pageIndex');
-        data.should.have.property('pageTotal');
+        data.should.have.property('pageIndex'); //TODO: check if range is ok
+        data.should.have.property('pageTotal'); //TODO: check if range is ok
 
         var items = data.items;
         items.should.be.an.Array();
