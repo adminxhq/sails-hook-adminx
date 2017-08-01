@@ -28,7 +28,6 @@ module.exports.routes = {
       origin: 'adminx-staging.herokuapp.com,http://adminx-staging.herokuapp.com',
       credentials: false,
       methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-      exposeHeaders: 'content-type,adminx-data-auth-token',
       headers: 'content-type,adminx-data-auth-token' //WARNING: This doesn't seem to work, but leaving it.
     }
   }
