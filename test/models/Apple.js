@@ -1,10 +1,9 @@
 /**
- * Apple.js
+ * models/Apple.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: Custom Apple model integrated with AdminX
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-
 module.exports = {
 
   attributes: {
@@ -21,12 +20,13 @@ module.exports = {
     ratings: { type: 'array' },
     tags: { type: 'array' },
     metadata: { type: 'json' },
+    grownBy: { model: 'tree' },
     relatedTo: { collection: 'apple' },
     description: { type: 'mediumtext' },
     history: { type: 'longtext' }
   },
 
-  backoffice: {
+  adminx: {
     attributes: {
       id: { list:true },
       name: { list: true },

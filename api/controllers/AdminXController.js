@@ -17,7 +17,7 @@ module.exports = {
         var schema = {
           name: index,
           attrs: prepareSchemaAttributes(item),
-          actions: prepareSchemaActions(item),
+          actions: prepareSchemaActions(item)
         };
         config.schemas.push(schema);
       }
@@ -145,11 +145,13 @@ module.exports = {
 /** PRIVATE UTILS **/
 
 function prepareSchemaAttributes (model) {
-  return _.merge(model.backoffice.attributes || {}, model._attributes);
+  var attrs = model.adminx ? model.adminx.attributes : {};
+  return _.merge(attrs || {}, model._attributes);
 }
 
 function prepareSchemaActions (model) {
-  return model.backoffice.actions || {};
+  var actions = model.adminx ? model.adminx.actions : {};
+  return actions || {};
 }
 
 function prepareSearchWhere (schema, query) {

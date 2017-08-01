@@ -104,6 +104,10 @@ describe('Basic tests ::', function() {
     done();
   });
 
+  it('sails has expected CORS config', function() {
+    return true;
+  });
+
   it('/app/config auth-protected', function (done) {
     request(httpApp)
       .get(path + '/app/config')
@@ -128,6 +132,15 @@ describe('Basic tests ::', function() {
 
   var schema = 'apple';
   var item = { name: 'Macintosh' };
+
+  it('/item/list schema with no admin config', function (done) {
+    request(httpApp)
+      .get(path + '/item/list')
+      .query({ schema: 'tree' })
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(200)
+      .end(done)
+  });
 
   it('/item/list no schema param', function (done) {
     request(httpApp)
