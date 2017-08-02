@@ -97,15 +97,19 @@ describe('Basic tests ::', function() {
     sails.models.apple.should.be.an.Object();
   });
 
-  it('sails has a valid admin config', function (done) {
+  it('admin config has loaded', function (done) {
     sails.config.adminx.should.be.an.Object();
     sails.config.adminx.should.have.property('authEnabled');
     sails.config.adminx.should.have.property('dataAuthToken');
     done();
   });
 
-  it('sails has expected CORS config', function() {
-    return true;
+  it('admin config auth disabled', function() {
+    return true; //TODO: implement
+  });
+
+  it('CORS config has loaded', function() {
+    return true; //TODO: implement
   });
 
   it('/app/config auth-protected', function (done) {

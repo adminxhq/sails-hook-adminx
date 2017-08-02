@@ -1,16 +1,17 @@
 # sails-hook-adminx
+> Sails hook for AdminX. Manage your sails app data without coding.
 
-### What is AdminX?
+### What's AdminX?
 AdminX is a universal, fast and reliable admin panel
 
 ### Requirements
 - sails 0.12
 
-### Installation
+### Install
 ```
 npm install sails-hook-adminx --save
 ```
-### Configuration
+### Configure
 You can configure the Auth Token by creating a `config/adminx.js` file
 ```
 /**
@@ -27,7 +28,7 @@ module.exports.adminx = {
 };
 
 ```
-### Use
+### Usage
 In your models, you can now define an `adminx` attribute with the adminx configurations you need
 
 ```
@@ -79,6 +80,7 @@ module.exports = {
   }
 };
 ```
+If you don't define a configuration, AdminX guesses all the details from your attributes.
 ```
 /**
  * models/Tree.js
