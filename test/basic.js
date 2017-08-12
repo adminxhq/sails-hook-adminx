@@ -4,7 +4,7 @@ var request = require('supertest');
 
 describe('Basic tests ::', function() {
 
-  // Var to hold a running sails app instance
+  // Initialise suite variables
   var sails, httpApp, loader;
 
   // Initialise test variables
@@ -50,6 +50,7 @@ describe('Basic tests ::', function() {
     },function (err, _sails) {
       if (err) return done(err);
 
+      // Save suite variables
       sails = _sails;
       httpApp = sails.hooks.http.app;
 
@@ -63,7 +64,7 @@ describe('Basic tests ::', function() {
       //   // sails.emit('hook:orm:reload');
       //   return done();
       // });
-      return done();
+      done(err, sails);
     });
   });
 
