@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var mergeWith = require('lodash.mergewith');
 
 module.exports = {
 
@@ -146,7 +147,12 @@ module.exports = {
 
 function prepareSchemaAttributes (model) {
   var attrs = model.adminx ? model.adminx.attributes : {};
-  return _.merge(attrs || {}, model._attributes);
+  // return _.merge(attrs || {}, model._attributes);
+
+  // This is so we can keep both the order of admin fields and the dominance in the merge
+  return mergeWith(attrs || {}, model._attributes, function customizer(objValue, srcValue) {
+    return _.merge(srcValue, objValue); // order of values reversed
+  });
 }
 
 function prepareSchemaActions (model) {
