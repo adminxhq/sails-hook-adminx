@@ -1,5 +1,5 @@
 {
-  "name": "sails-hook-adminx",
+  "name": "@adminxhq/sails-hook-adminx",
   "version": "0.0.2",
   "description": "AdminX panel hook for Sails.js",
   "keywords": [
