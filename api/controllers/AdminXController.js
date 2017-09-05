@@ -16,7 +16,8 @@ module.exports = {
     _.each(sails.models, function (item, index) {
       if (!item.meta.junctionTable) { //TODO: is this the best way to know if a model is a junctionTable?
         var schema = {
-          name: index,
+          key: index,
+          name: prepareSchemaName(item) || index,
           attrs: prepareSchemaAttributes(item),
           actions: prepareSchemaActions(item)
         };
@@ -145,19 +146,38 @@ module.exports = {
 
 /** PRIVATE UTILS **/
 
-function prepareSchemaAttributes (model) {
-  var attrs = model.adminx ? model.adminx.attributes : {};
-  // return _.merge(attrs || {}, model._attributes);
+function prepareSchemaName (model) {
+  var name = null;
+  if(model && model.adminx && model.adminx.name) {
+    name = model.adminx.name;
+  }
+  return _.capitalize(name);
+}
 
-  // This is so we can keep both the order of admin fields and the dominance in the merge
-  return mergeWith(attrs || {}, model._attributes, function customizer(objValue, srcValue) {
+function prepareSchemaAttributes (model) {
+  var adminAttrs = {};
+  if(model && model.adminx && model.adminx.attributes) {
+    adminAttrs = model.adminx.attributes;
+  }
+
+  var sailsAttrs = model._attributes;
+  if(!sailsAttrs) {
+    throw Error('AdminX can\'t find Sails attributes, are you sure you\'re running a compatible Sails verion?');
+  }
+
+  // Fancy merge so we can keep both the order of admin fields and the dominance in the merge
+  return mergeWith(adminAttrs, sailsAttrs, function customizer(objValue, srcValue) {
     return _.merge(srcValue, objValue); // order of values reversed
   });
+  // return _.merge(attrs || {}, model._attributes);
 }
 
 function prepareSchemaActions (model) {
-  var actions = model.adminx ? model.adminx.actions : {};
-  return actions || {};
+  var actions = {};
+  if(model && model.adminx && model.adminx.actions) {
+    actions = model.adminx.actions;
+  }
+  return actions;
 }
 
 function prepareSearchWhere (schema, query) {
