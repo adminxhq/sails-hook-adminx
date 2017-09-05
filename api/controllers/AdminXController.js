@@ -17,7 +17,7 @@ module.exports = {
       if (!item.meta.junctionTable) { //TODO: is this the best way to know if a model is a junctionTable?
         var schema = {
           key: index,
-          name: prepareSchemaName(item) || index,
+          name: prepareSchemaName(item, index),
           attrs: prepareSchemaAttributes(item),
           actions: prepareSchemaActions(item)
         };
@@ -146,8 +146,8 @@ module.exports = {
 
 /** PRIVATE UTILS **/
 
-function prepareSchemaName (model) {
-  var name = null;
+function prepareSchemaName (model, defaultName) {
+  var name = defaultName;
   if(model && model.adminx && model.adminx.name) {
     name = model.adminx.name;
   }
