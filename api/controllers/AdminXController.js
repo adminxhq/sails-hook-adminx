@@ -157,17 +157,21 @@ function prepareSchemaName (model, defaultName) {
 function prepareSchemaAttributes (model) {
   var adminAttrs = {};
   if(model && model.adminx && model.adminx.attributes) {
-    adminAttrs = model.adminx.attributes;
+    adminAttrs = _.clone(model.adminx.attributes);
   }
 
-  var sailsAttrs = model._attributes;
+  var sailsAttrs = _.clone(model._attributes);
   if(!sailsAttrs) {
     throw Error('AdminX can\'t find Sails attributes, are you sure you\'re running a compatible Sails verion?');
   }
 
   // Fancy merge so we can keep both the order of admin fields and the dominance in the merge
-  return mergeWith(adminAttrs, sailsAttrs, function customizer(objValue, srcValue) {
-    return _.merge(srcValue, objValue); // order of values reversed
+  return mergeWith(adminAttrs, sailsAttrs, function customizer(objValue, srcValue, key, object, source, stack) {
+    // --- IMPORTANT: Avoid modifying the original object in the stack
+    // _.merge modifies the destination
+    var dest = _.clone(srcValue);
+    // ---
+    return _.merge(dest, objValue); // order of values reversed
   });
   // return _.merge(attrs || {}, model._attributes);
 }
