@@ -187,6 +187,7 @@ function prepareSearchWhere (schema, query) {
   _.each(attrs, function (item, index) {
     // console.log(index);
     var type = item.type;
+    // Make sure we don't search on dates
     if (type !== 'date' && type !== 'datetime') {
       var o = {};
       o[index] = { contains: query };

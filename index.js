@@ -32,6 +32,8 @@ module.exports = function (sails) {
       if (sails.config.cors.headers.indexOf(headerName) === -1) {
         sails.config.cors.headers += ',' + headerName;
       }
+
+
     },
 
     initialize: function (cb) {
