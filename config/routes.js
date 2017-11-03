@@ -25,7 +25,7 @@ module.exports.routes = {
   '/adminx*': {
     cors: {
       // securityLevel: 2,
-      origin: 'http://adminx-staging.herokuapp.com,https://adminx-staging.herokuapp.com,http://adminx-production.herokuapp.com,https://adminx-production.herokuapp.com',
+      origin: 'http://adminx.io,https://adminx.io,http://adminx-production.herokuapp.com,https://adminx-production.herokuapp.com',
       credentials: false,
       methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
       headers: 'content-type,adminx-data-auth-token' //WARNING: This doesn't seem to work, but leaving it.
