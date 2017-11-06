@@ -102,7 +102,7 @@ module.exports = {
 ```
 
 ### Resources
-- [Documentation](https://adminx.io/docs) for reference AdminX configuration.
+- [Documentation](https://adminx.io/docs) for reference on AdminX configuration.
 - [Support](https://adminx.io/support)
 - [Live Demo](https://adminx.io/demo)
 - [Sails Demo Code](http://github.com/adminxhq/sails-demo) for a working demo.
