@@ -18,7 +18,7 @@
     "url": "https://github.com/adminxhq/sails-hook-adminx"
   },
   "author": {
-    "name": "Albert Peiró",
+    "name": "Albert Peiro",
     "email": "albert@adminx.io"
   },
   "private": false,
@@ -32,5 +32,8 @@
   "dependencies": {
     "lodash.mergewith": "^4.6.0",
     "sails-util-mvcsloader": "^0.4.0"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/_mocha test/basic.js --ui tdd --recursive ./test"
   }
 }
