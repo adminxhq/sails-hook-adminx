@@ -2,18 +2,35 @@
 > Sails hook for AdminX. Manage your sails app data without coding.
 
 ### What's AdminX?
-AdminX is a universal, fast and reliable admin panel
+[AdminX](https://adminx.io) is a universal, fast and reliable admin panel.
+
+### Try it with the [AdminX Live Demo](https://adminx.io/demo)
+
+### Sample app
+We open sourced the demo app we use on the website:
+[Sails Demo](/adminxhq/sails-demo)
 
 ### Requirements
 - sails 0.12
+- Waterline: this integrations requires you to use the default Sails ORM
+
+### What does AdminX do?
+1. Initializes on `sails lift` as the `sails-hook-adminx`
+2. Exposes a REST API under `/adminx/*`
+3. Adds CORS (Cross Origin Resource Sharing) configuration to open protection on those routes in a limited way, only the bare necessary.
+
+An AdminX Panel is then able to connect to your server securely.
 
 ### Install
+```console
+# npm install sails-hook-adminx --save
+yarn add sails-hook-adminx
 ```
-npm install sails-hook-adminx --save
-```
+
 ### Configure
-You can configure the Auth Token by creating a `config/adminx.js` file
-```
+Create a `config/adminx.js` file
+
+```javascript
 /**
  * AdminX Configuration
  * (sails.config.adminx)
@@ -22,80 +39,23 @@ You can configure the Auth Token by creating a `config/adminx.js` file
  *
  */
 module.exports.adminx = {
+  
+  // Ignores the authentication, for development purposes only
   authEnabled: true,
+  
   //Go to AdminX site and configure a new Data Auth Token
   dataAuthToken: 'REPLACE_THIS_TOKEN'
 };
-
 ```
+
 ### Usage
-In your models, you can now define an `adminx` attribute with the adminx configurations you need
+In your models, you can now define an `adminx` attribute with the adminx configurations you need.
+```javascript
 
 ```
-/**
- * models/Apple.js
- *
- * @description :: Custom Apple model integrated with AdminX
- * @docs        :: http://sailsjs.org/#!documentation/models
- */
-module.exports = {
-  
-  attributes: {
-    name: { type: 'string' },
-    origin: { type: 'text', protected: true },
-    email: { type: 'email' },
-    quantity: {type: 'integer'},
-    price: {type: 'float'},
-    rippenedAt: {type: 'date'},
-    pickedAt: {type: 'datetime'},
-    organic: { type: 'boolean' },
-    dnaSequence: { type: 'binary' },
-    images: { type: 'array' },
-    ratings: { type: 'array' },
-    tags: { type: 'array' },
-    metadata: { type: 'json' },
-    grownBy: { model: 'tree' },
-    relatedTo: { collection: 'apple' },
-    description: { type: 'mediumtext' },
-    history: { type: 'longtext' }
-  },
 
-  adminx: {
-    attributes: {
-      id: { list:true },
-      name: { list: true },
-      origin: { list: true },
-      images: { arrayHtmlValidation: 'url' },
-      ratings: { arrayHtmlValidation: 'number' },
-      createdAt: { list: true },
-      updatedAt: { list: true }
-    },
-    actions: {
-      makeJuice: {
-        type: 'update',
-        title: 'Make juice now!',
-        description: 'Convert to lowercase the name of this model'
-      }
-    }
-  }
-};
-```
-If you don't define a configuration, AdminX guesses all the details from your attributes.
-```
-/**
- * models/Tree.js
- *
- * @description :: Custom Tree model integrated with AdminX
- * @docs        :: http://sailsjs.org/#!documentation/models
- */
-module.exports = {
-
-  attributes: {
-    name: { type: 'string' },
-    apples: {
-      collection: 'apple',
-      via: 'grownBy'
-    }
-  }
-};
-```
+### Resources
+- [AdminX Live Demo](https://adminx.io/demo)
+- [Sails Demo](/adminxhq/sails-demo) for a working demo.
+- [AdminX Documentation](https://adminx.io/docs/0.0/) for up to date documentation.
+- [AdminX Support](https://adminx.io/support)
