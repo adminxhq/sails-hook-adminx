@@ -1,4 +1,4 @@
-# sails-hook-adminx
+# sails-hook-adminx [![Build Status](https://travis-ci.org/adminxhq/sails-hook-adminx.svg?branch=master)](https://travis-ci.org/adminxhq/sails-hook-adminx)
 > Sails hook for AdminX. Manage your sails app data without coding.
 
 ### What's AdminX?
