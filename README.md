@@ -101,6 +101,9 @@ module.exports = {
 };
 ```
 
+![AdminX Panel](https://adminx.io/web/images/app-animations/desktop-landscape.gif?v2)
+
+
 ### Resources
 - [Documentation](https://adminx.io/docs) for reference on AdminX configuration.
 - [Support](https://adminx.io/support)
