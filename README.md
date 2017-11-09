@@ -14,7 +14,7 @@ We open sourced the demo app we use on the website:
 - sails 0.12
 - Waterline: this integrations requires you to use the default Sails ORM
 
-### What does this sails hook do?
+### What does sails-hook-adminx do under the bonnet?
 1. Initializes on `sails lift` as the `sails-hook-adminx`
 2. Exposes a REST API under `/adminx/*`
 3. Adds CORS (Cross Origin Resource Sharing) configuration to open access from AdminX servers (https://adminx.io)
