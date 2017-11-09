@@ -4,9 +4,26 @@
   "description": "AdminX hook for Sails.js",
   "keywords": [
     "sails",
+    "sailsjs",
+    "waterline",
     "hook",
     "admin",
-    "panel"
+    "panel",
+    "cms",
+    "content",
+    "management",
+    "backoffice",
+    "back-office",
+    "back",
+    "office",
+    "wysiwyg",
+    "markdown",
+    "image",
+    "upload",
+    "gallery",
+    "s3",
+    "validation",
+    "form"
   ],
   "main": "index.js",
   "sails": {
