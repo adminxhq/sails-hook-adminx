@@ -23,7 +23,7 @@ We open sourced the demo app we use on the website:
 ### What does sails-hook-adminx do under the bonnet?
 1. Initializes on `sails lift` as the `sails-hook-adminx`
 2. Exposes a REST API under `/adminx/*`
-3. Adds CORS (Cross Origin Resource Sharing) configuration to open access from AdminX servers (https://adminx.io)
+3. Adds CORS (Cross Origin Resource Sharing) configuration to open access from AdminX served pages on your browser (https://adminx.io)
 
 An AdminX Panel is then able to connect to your server securely.
 
