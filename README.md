@@ -3,7 +3,6 @@
 [![dependencies Status](https://david-dm.org/adminxhq/sails-hook-adminx/status.svg)](https://david-dm.org/adminxhq/sails-hook-adminx)
 [![npm version](https://badge.fury.io/js/sails-hook-adminx.svg)](https://badge.fury.io/js/sails-hook-adminx) 
 [![Join the chat at https://gitter.im/adminxhq/sails-hook-adminx](https://badges.gitter.im/adminxhq/sails-hook-adminx.svg)](https://gitter.im/adminxhq/sails-hook-adminx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/adminxhq/sails-hook-adminx)
 [![Twitter Follow](https://img.shields.io/twitter/follow/adminxhq.svg?style=social&maxAge=3600)](https://twitter.com/adminxhq)
 
 > Sails hook for AdminX. Manage your sails app data without coding.
