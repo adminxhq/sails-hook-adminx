@@ -1,4 +1,6 @@
 # sails-hook-adminx [![Build Status](https://travis-ci.org/adminxhq/sails-hook-adminx.svg?branch=master)](https://travis-ci.org/adminxhq/sails-hook-adminx)
+
+[![Join the chat at https://gitter.im/adminxhq/sails-hook-adminx](https://badges.gitter.im/adminxhq/sails-hook-adminx.svg)](https://gitter.im/adminxhq/sails-hook-adminx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 > Sails hook for AdminX. Manage your sails app data without coding.
 
 ### What's AdminX?
