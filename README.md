@@ -119,3 +119,5 @@ module.exports = {
 
 ### License
 [MIT License](/LICENSE.md) Copyright © 2016-2017 Albert Peiro, ADMINX LTD.
+
+![image_squidhome@2x.png](http://sailsjs.com/images/bkgd_squiddy.png)
