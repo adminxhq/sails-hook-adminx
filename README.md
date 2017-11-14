@@ -118,4 +118,4 @@ module.exports = {
 - [Sails Demo Code](http://github.com/adminxhq/sails-demo)
 
 ### License
-[MIT License]() Copyright © 2016-2017 Albert Peiro, ADMINX LTD.
+[MIT License](/LICENSE.md) Copyright © 2016-2017 Albert Peiro, ADMINX LTD.
