@@ -18,7 +18,8 @@ We open sourced the demo app we use on the website:
 [Sails Demo Code](http://github.com/adminxhq/sails-demo)
 
 ### Requirements
-- sails 0.12
+- for sails 1.0 use sails-hook-adminx@0.1
+- for sails 0.12 use sails-hook-adminx@0.0
 - Waterline: this integrations requires you to use the default Sails ORM
 
 ### What does sails-hook-adminx do under the bonnet?
