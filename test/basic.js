@@ -99,12 +99,13 @@ describe('Basic tests ::', function() {
   });
 
   // Test that Sails can lift with the hook in place
-  it ('sails does not crash', function() {
-    return true;
+  it ('sails does not crash', function (done) {
+    done();
   });
 
-  it ('sails has loaded test models', function() {
+  it ('sails has loaded test models', function (done) {
     sails.models.apple.should.be.an.Object();
+    done();
   });
 
   it('admin config has loaded', function (done) {
@@ -114,12 +115,9 @@ describe('Basic tests ::', function() {
     done();
   });
 
-  it('admin config auth disabled', function() {
-    return true; //TODO: implement
-  });
-
-  it('CORS config has loaded', function() {
-    return true; //TODO: implement
+  it('CORS config has loaded', function (done) {
+    sails.config.routes['/adminx*'].cors.allowOrigins.should.be.an.Array();
+    done();
   });
 
   it('/app/config auth-protected', function (done) {

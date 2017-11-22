@@ -1,3 +1,6 @@
+const adminxHeaderAuth = require('./api/policies/adminxHeaderAuth');
+const adminxController = require('./api/controllers/AdminXController');
+
 module.exports = function (sails) {
   // var loader = require('sails-util-mvcsloader')(sails);
 
@@ -20,11 +23,6 @@ module.exports = function (sails) {
         authEnabled: true,
         dataAuthToken: null
       },
-      policies: {
-        AdminXController: {
-          '*': ['adminxHeaderAuth']
-        },
-      },
       //_hookTimeout: 20000 // wait 20 seconds before timing out
     },
 
@@ -39,9 +37,9 @@ module.exports = function (sails) {
      * https://next.sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/configure
      */
     configure: function () {
-      // Load policies under ./api/policies and config under ./config
+      /*// Load policies under ./api/policies and config under ./config
       // https://github.com/leeroybrun/sails-util-mvcsloader#loading-config--policies
-      /*loader.configure({
+      loader.configure({
         policies: __dirname + '/api/policies',// Path to the policies to load
         config: __dirname + '/config' // Path to the config to load
       });*/
@@ -69,11 +67,11 @@ module.exports = function (sails) {
 
       //TODO: check if sails has enabled an ORM or throw an Error/Warning
 
-      // Load controllers under ./api/controllers and services under ./services
+      /*// Load controllers under ./api/controllers and services under ./services
       // https://github.com/leeroybrun/sails-util-mvcsloader#loading-models--controllers--services
-      /*loader.inject({
+      loader.inject({
         controllers: __dirname + '/api/controllers', // Path to the controllers to load
-        services: __dirname + '/api/services' // Path to the services to load
+        // services: __dirname + '/api/services' // Path to the services to load
       }, function(err) {
         // Signal that initialization of this hook is complete
         // by calling the callback.
@@ -106,7 +104,14 @@ module.exports = function (sails) {
      */
     routes: {
       before: {
-
+        '/adminx*': adminxHeaderAuth,
+        '/adminx/app/config': adminxController['app/config'],
+        '/adminx/item/list': adminxController['item/list'],
+        '/adminx/item/create': adminxController['item/create'],
+        '/adminx/item/read': adminxController['item/read'],
+        '/adminx/item/update': adminxController['item/update'],
+        '/adminx/item/action': adminxController['item/action'],
+        '/adminx/item/delete': adminxController['item/delete']
       },
 
       after: {

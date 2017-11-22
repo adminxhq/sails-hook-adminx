@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "lodash.mergewith": "^4.6.0",
-    "sails-util-mvcsloader": "^0.4.0"
+    "sails-util-mvcsloader": "https://github.com/adminxhq/sails-util-mvcsloader"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/_mocha test/basic.js --ui tdd --recursive ./test"

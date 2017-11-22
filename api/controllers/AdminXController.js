@@ -42,7 +42,7 @@ module.exports = {
     model.find()
       .where(prepareSearchWhere(schema, search))
       .sort(sort)
-      .paginate({page:page, limit:limit})
+      .paginate(page, limit)
       .then(function (items) {
         return model.count()
           .then(function (count) {
@@ -160,7 +160,7 @@ function prepareSchemaAttributes (model) {
     adminAttrs = _.clone(model.adminx.attributes);
   }
 
-  var sailsAttrs = _.clone(model._attributes);
+  var sailsAttrs = _.clone(model.attributes);
   if(!sailsAttrs) {
     throw Error('AdminX can\'t find Sails attributes, are you sure you\'re running a compatible Sails verion?');
   }
@@ -191,9 +191,12 @@ function prepareSearchWhere (schema, query) {
   _.each(attrs, function (item, index) {
     // console.log(index);
     var type = item.type;
+    var o = {};
     // Make sure we don't search on dates
-    if (type !== 'date' && type !== 'datetime') {
-      var o = {};
+    if(type == 'number') {
+      o[index] = query;
+      where.or.push(o);
+    } else if (type !== 'datetime') {
       o[index] = { contains: query };
       where.or.push(o);
     }
