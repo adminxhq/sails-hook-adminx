@@ -29,6 +29,7 @@ describe('Basic tests ::', function() {
       },
       paths: {
         models: 'test/models', // This injects the models in the right way, exposing the Waterline ORM query functions
+        services: 'test/services'
       },
       datastores: {
         testDiskDb: {
@@ -186,7 +187,7 @@ describe('Basic tests ::', function() {
 
   it('/item/create working', function (done) {
     request(httpApp)
-      .get(path + '/item/create')
+      .post(path + '/item/create')
       .query({ schema: schema, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
@@ -202,7 +203,7 @@ describe('Basic tests ::', function() {
 
   it('/item/update no schema param', function (done) {
     request(httpApp)
-      .get(path + '/item/update')
+      .post(path + '/item/update')
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(400)
       .end(done)
@@ -211,7 +212,7 @@ describe('Basic tests ::', function() {
 
   it('/item/update working', function (done) {
     request(httpApp)
-      .get(path + '/item/update')
+      .post(path + '/item/update')
       .query({ schema: schema, id: item.id, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
@@ -226,7 +227,7 @@ describe('Basic tests ::', function() {
 
   it('/item/action no schema', function (done) {
     request(httpApp)
-      .get(path + '/item/action')
+      .post(path + '/item/action')
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(400)
       .end(done)
@@ -235,7 +236,7 @@ describe('Basic tests ::', function() {
 
   it('/item/action working', function (done) {
     request(httpApp)
-      .get(path + '/item/action')
+      .post(path + '/item/action')
       .query({ schema: schema, id: item.id, item: item, action: 'makeJuice', data: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
@@ -249,7 +250,7 @@ describe('Basic tests ::', function() {
 
   it('/item/delete no schema', function (done) {
     request(httpApp)
-      .get(path + '/item/delete')
+      .post(path + '/item/delete')
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(400)
       .end(done)
@@ -258,7 +259,7 @@ describe('Basic tests ::', function() {
 
   it('/item/delete working', function (done) {
     request(httpApp)
-      .get(path + '/item/delete')
+      .post(path + '/item/delete')
       .query({ schema: schema, id: item.id })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)

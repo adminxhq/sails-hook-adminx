@@ -67,6 +67,7 @@ module.exports = {
     if (!model) return res.badRequest('schema doesn\'t exist');
 
     model.create(item)
+      .fetch()
       .then(resultFilterAll)
       .then(res.ok)
       .catch(res.badRequest);
@@ -95,10 +96,11 @@ module.exports = {
 
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
+    if (!id) return res.badRequest('id not provided');
+    if (!item || !_.isObject(item)) return res.badRequest('item not provided');
 
-    model.update(
-      { id: id },
-      item)
+    model.update({ id: id }, item)
+      .fetch()
       .then(_.last)
       .then(function (item) {
         return model.findOneById(id)
@@ -135,7 +137,8 @@ module.exports = {
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
 
-    model.destroy(id)
+    model.destroy({ id: id })
+      .fetch()
       .then(_.last)
       .then(resultFilterAll) // Bypass 'protected' attrs
       .then(res.ok)
