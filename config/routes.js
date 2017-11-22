@@ -25,20 +25,20 @@ module.exports.routes = {
   '/adminx*': {
     cors: {
       // securityLevel: 2,
-      origin: [
+      allowOrigins: [
         'http://adminx.io',
         'https://adminx.io',
-        'http://adminx-production.herokuapp.com',
-        'https://adminx-production.herokuapp.com',
+        'http://adminx-production.herokuapp.com', // Temporary safe failback until stable DNS
+        'https://adminx-production.herokuapp.com', // Temporary safe failback until stable DNS
         'http://staging.adminx.io',
         'https://staging.adminx.io',
-        'http://adminx-staging.herokuapp.com',
-        'https://adminx-staging.herokuapp.com'
-      ].join(','),
+        'http://adminx-staging.herokuapp.com', // Temporary safe failback until stable DNS
+        'https://adminx-staging.herokuapp.com' // Temporary safe failback until stable DNS
+      ],
 
-      credentials: false,
-      methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-      headers: 'content-type,adminx-data-auth-token' //WARNING: This doesn't seem to work, but leaving it.
+      allowCredentials: false,
+      allowRequestMethods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+      allowRequestHeaders: 'content-type,adminx-data-auth-token' //WARNING: This doesn't seem to work, but leaving it.
     }
   }
 

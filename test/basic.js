@@ -29,24 +29,32 @@ describe('Basic tests ::', function() {
       },
       paths: {
         models: 'test/models', // This injects the models in the right way, exposing the Waterline ORM query functions
-        services: 'test/services'
       },
-      connections: {
+      datastores: {
         testDiskDb: {
           adapter: 'sails-disk'
         }
       },
       models: {
-        connection: 'testDiskDb',
-        migrate: 'drop'
+        datastore: 'testDiskDb',
+        migrate: 'drop',
+        attributes: {
+          createdAt: {type: 'number', autoCreatedAt: true,},
+          updatedAt: {type: 'number', autoUpdatedAt: true,},
+          id: {type: 'number', autoIncrement: true,},
+        }
       },
       adminx: {
         dataAuthToken: dataAuthToken
       },
       globals: {
-        models: true
+        models: true,
+        _: require('lodash'),
+        async: require('async'),
+        sails: true
       },
-      log: {level: "verbose"}
+      session: { secret: 'secret123' },
+      log: { level: 'verbose' }
     },function (err, _sails) {
       if (err) return done(err);
 
@@ -72,10 +80,11 @@ describe('Basic tests ::', function() {
     // Clear DB by reloading Sails ORM
     sails.once('hook:orm:reloaded', done);
     sails.emit('hook:orm:reload');
+    done();
+
     // TODO: Keep an eye if the way to do this changes
     // https://www.npmjs.com/package/sails-hook-orm#hookormreload
     // sails.hooks.orm.reload();
-    done();
   });
 
   // After tests are complete, lower Sails

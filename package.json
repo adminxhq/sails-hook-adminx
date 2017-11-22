@@ -1,8 +1,9 @@
 {
   "name": "sails-hook-adminx",
   "version": "0.0.10",
-  "description": "AdminX hook for Sails.js",
+  "description": "AdminX hook for Sails.js. AdminX is a sleek admin panel that integrates with any database, without coding.",
   "keywords": [
+    "adminx",
     "sails",
     "sailsjs",
     "waterline",
@@ -41,8 +42,9 @@
   "private": false,
   "devDependencies": {
     "mocha": "^3.4.2",
-    "sails": "^0.12.13",
-    "sails-disk": "^0.10.10",
+    "sails": "^1.0.0-41",
+    "sails-disk": "^1.0.0-11",
+    "sails-hook-orm": "^2.0.0-22",
     "should": "^11.2.1",
     "supertest": "^3.0.0"
   },

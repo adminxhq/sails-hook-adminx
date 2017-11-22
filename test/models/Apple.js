@@ -8,22 +8,22 @@ module.exports = {
 
   attributes: {
     name: { type: 'string' },
-    origin: { type: 'text', protected: true },
-    email: { type: 'email' },
-    quantity: {type: 'integer'},
-    price: {type: 'float'},
-    rippenedAt: {type: 'date'},
-    pickedAt: {type: 'datetime'},
+    origin: { type: 'string' },
+    email: { type: 'string', isEmail: true },
+    quantity: {type: 'number'},
+    price: {type: 'number'},
+    rippenedAt: {type: 'string', columnType: 'datetime'},
+    pickedAt: {type: 'string', columnType: 'datetime'},
     organic: { type: 'boolean' },
-    dnaSequence: { type: 'binary' },
-    images: { type: 'array' },
-    ratings: { type: 'array' },
-    tags: { type: 'array' },
+    dnaSequence: { type: 'ref', columnType: 'binary' },
+    images: { type: 'json', columnType: 'array' },
+    ratings: { type: 'json', columnType: 'array' },
+    tags: { type: 'json', columnType: 'array' },
     metadata: { type: 'json' },
     grownBy: { model: 'tree' },
     relatedTo: { collection: 'apple' },
-    description: { type: 'mediumtext' },
-    history: { type: 'longtext' }
+    description: { type: 'string' },
+    history: { type: 'string' }
   },
 
   adminx: {
