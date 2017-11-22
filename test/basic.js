@@ -43,7 +43,8 @@ describe('Basic tests ::', function() {
           createdAt: {type: 'number', autoCreatedAt: true,},
           updatedAt: {type: 'number', autoUpdatedAt: true,},
           id: {type: 'number', autoIncrement: true,},
-        }
+        },
+        primaryKey: 'id'
       },
       adminx: {
         dataAuthToken: dataAuthToken
@@ -155,7 +156,7 @@ describe('Basic tests ::', function() {
       .end(done)
   });
 
-  it('/item/list no schema param', function (done) {
+  it('/item/list no params', function (done) {
     request(httpApp)
       .get(path + '/item/list')
       .set(dataAuthHeaderName, dataAuthToken)
@@ -188,7 +189,7 @@ describe('Basic tests ::', function() {
   it('/item/create working', function (done) {
     request(httpApp)
       .post(path + '/item/create')
-      .query({ schema: schema, item: item })
+      .send({ schema: schema, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
@@ -201,7 +202,24 @@ describe('Basic tests ::', function() {
     ;
   });
 
-  it('/item/update no schema param', function (done) {
+  it('/item/read no params', function (done) {
+    request(httpApp)
+      .get(path + '/item/read')
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(400)
+      .end(done)
+  });
+
+  it('/item/read working', function (done) {
+    request(httpApp)
+      .get(path + '/item/read')
+      .query({ schema: schema, id: item.id })
+      .set(dataAuthHeaderName, dataAuthToken)
+      .expect(200)
+      .end(done)
+  });
+
+  it('/item/update no params', function (done) {
     request(httpApp)
       .post(path + '/item/update')
       .set(dataAuthHeaderName, dataAuthToken)
@@ -213,19 +231,20 @@ describe('Basic tests ::', function() {
   it('/item/update working', function (done) {
     request(httpApp)
       .post(path + '/item/update')
-      .query({ schema: schema, id: item.id, item: item })
+      .send({ schema: schema, id: item.id, item: item })
       .set(dataAuthHeaderName, dataAuthToken)
       .expect(200)
       .expect(function (res) {
         var data = res.body;
         data.should.be.an.Object();
         data.should.have.property('id').eql(item.id);
+        data.should.have.property('grownBy').eql(null);
       })
       .end(done)
     ;
   });
 
-  it('/item/action no schema', function (done) {
+  it('/item/action no params', function (done) {
     request(httpApp)
       .post(path + '/item/action')
       .set(dataAuthHeaderName, dataAuthToken)
@@ -248,7 +267,7 @@ describe('Basic tests ::', function() {
     ;
   });
 
-  it('/item/delete no schema', function (done) {
+  it('/item/delete no params', function (done) {
     request(httpApp)
       .post(path + '/item/delete')
       .set(dataAuthHeaderName, dataAuthToken)

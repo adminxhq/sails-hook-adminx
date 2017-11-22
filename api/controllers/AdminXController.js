@@ -80,8 +80,9 @@ module.exports = {
 
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
+    if (!id) return res.badRequest('id not provided');
 
-    model.findOneById(id)
+    model.findOne({ id: id })
       .populateAll()
       .then(resultFilterAll)
       .then(res.ok)
@@ -100,10 +101,8 @@ module.exports = {
     if (!item || !_.isObject(item)) return res.badRequest('item not provided');
 
     model.update({ id: id }, item)
-      .fetch()
-      .then(_.last)
       .then(function (item) {
-        return model.findOneById(id)
+        return model.findOne({ id: id })
           .populateAll();
       })
       .then(resultFilterAll) // Bypass 'protected' attrs
