@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "lodash.mergewith": "^4.6.0",
+    "numeral": "^2.0.6",
     "sails-util-mvcsloader": "https://github.com/adminxhq/sails-util-mvcsloader"
   },
   "scripts": {

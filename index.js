@@ -1,8 +1,8 @@
 const adminxHeaderAuth = require('./api/policies/adminxHeaderAuth');
 const adminxController = require('./api/controllers/AdminXController');
+const adminxRoutes = require('./config/routes');
 
 module.exports = function (sails) {
-  // var loader = require('sails-util-mvcsloader')(sails);
 
   // Declare a var that will act as a reference to this hook.
   var hook;
@@ -23,6 +23,8 @@ module.exports = function (sails) {
         authEnabled: true,
         dataAuthToken: null
       },
+      routes: adminxRoutes.routes
+
       //_hookTimeout: 20000 // wait 20 seconds before timing out
     },
 
@@ -49,6 +51,22 @@ module.exports = function (sails) {
       /*var headerName = 'adminx-data-auth-token';
       if (sails.config.cors.allowRequestHeaders.indexOf(headerName) === -1) {
         sails.config.cors.allowRequestHeaders += ',' + headerName;
+      } else {
+        sails.log('No CORS configuration found in your project. AdminX needs to configure it.');
+        sails.log('AdminX can\'t modify sails.config.cors, you will have to configure CORS this manually.');
+      }*/
+
+      /*
+       *
+       */
+      /*if(sails.config && sails.config.routes) {
+        var key = '/adminx*';
+        // sails.config.routes[key] = _.merge(sails.config.routes[key], adminxRoutes.routes[key]);
+        var routeCors = sails.config.routes[key].cors;
+        if(routeCors) {
+
+        }
+        console.log(sails.config.routes[key]);
       }*/
     },
 

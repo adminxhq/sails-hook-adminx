@@ -1141,6 +1141,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
+
 object-hash@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-0.3.0.tgz#548208e43b36a44e4da30bad6c56ac53b885e744"
@@ -1452,9 +1456,9 @@ sails-stringfile@0.3.2:
     colors "*"
     lodash "~2.4.1"
 
-sails-util-mvcsloader@^0.4.0:
+"sails-util-mvcsloader@https://github.com/adminxhq/sails-util-mvcsloader":
   version "0.4.0"
-  resolved "https://registry.yarnpkg.com/sails-util-mvcsloader/-/sails-util-mvcsloader-0.4.0.tgz#fb9de8c36d7cb8c226908c9aa3038a9f9694b4df"
+  resolved "https://github.com/adminxhq/sails-util-mvcsloader#527666d5ce9af7631f7a52873d2b2e9d0762497b"
   dependencies:
     async "^0.9.0"
     include-all "^0.1.6"

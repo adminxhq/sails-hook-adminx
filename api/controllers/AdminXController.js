@@ -1,7 +1,7 @@
 /**
- * BackofficeController
+ * AdminXController
  *
- * @description :: Server-side logic for managing users
+ * @description :: Webhooks API for AdminX
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var mergeWith = require('lodash.mergewith');
@@ -32,16 +32,18 @@ module.exports = {
     var schema = req.param('schema');
     var model = sails.models[schema];
     var search = req.param('search');
-    var sort = req.param('sort') || 'updatedAt desc';
-    var page = req.param('page') || 1;
+    var sort = req.param('sort');
+    var page = req.param('page') - 1 || 0;
     var limit = req.param('limit') || 10;
 
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
 
-    model.find()
-      .where(prepareSearchWhere(schema, search))
-      .sort(sort)
+    var criteria = {};
+    if(search) criteria.where = prepareSearchWhere(schema, search);
+    if(sort) criteria.sort = sort;
+
+    model.find(criteria)
       .paginate(page, limit)
       .then(function (items) {
         return model.count()
@@ -185,24 +187,32 @@ function prepareSchemaActions (model) {
   }
   return actions;
 }
-
+const numeral = require('numeral');
 function prepareSearchWhere (schema, query) {
   var model = sails.models[schema];
   var attrs = prepareSchemaAttributes(model);
-  var where = { or: [] };
-  _.each(attrs, function (item, index) {
-    // console.log(index);
-    var type = item.type;
-    var o = {};
-    // Make sure we don't search on dates
-    if(type == 'number') {
-      o[index] = query;
-      where.or.push(o);
-    } else if (type !== 'datetime') {
-      o[index] = { contains: query };
-      where.or.push(o);
-    }
-  });
+  var where = {};
+
+  if (query) {
+    where.or = [];
+    _.each(attrs, function (item, index) {
+      // console.log(index);
+      var type = item.type;
+      var o = {};
+      // Make sure we don't search on dates
+      if(type === 'number') {
+        let number = numeral(query);
+        if(!isNaN(number.value())) {
+          o[index] = number.value();
+          where.or.push(o);
+        }
+      } else if (type !== 'datetime') {
+        o[index] = { contains: query };
+        where.or.push(o);
+      }
+    });
+  }
+
   // console.log(where);
   return where;
 }
