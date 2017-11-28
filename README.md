@@ -17,8 +17,7 @@ We open sourced the demo app we use on the website:
 [Sails Demo Code](http://github.com/adminxhq/sails-demo)
 
 ### Requirements
-- for sails 1.0 use sails-hook-adminx@0.1
-- for sails 0.12 use sails-hook-adminx@0.0
+- Sails >0.12 or >1.0
 - Waterline: this integrations requires you to use the default Sails ORM
 
 ### What does sails-hook-adminx do under the bonnet?
@@ -31,7 +30,9 @@ An AdminX Panel is then able to connect from your browser to your server securel
 ### Install
 ```console
 # npm install sails-hook-adminx --save
-yarn add sails-hook-adminx
+yarn add sails-hook-adminx@^0.1.2 # Sails 1.0
+# or
+yarn add sails-hook-adminx@^0.0.10 # Sails 0.12
 ```
 
 ### Configure
