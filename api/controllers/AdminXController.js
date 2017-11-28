@@ -5,6 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var mergeWith = require('lodash.mergewith');
+const numeral = require('numeral');
 
 module.exports = {
 
@@ -33,8 +34,9 @@ module.exports = {
     var model = sails.models[schema];
     var search = req.param('search');
     var sort = req.param('sort');
-    var page = req.param('page') - 1 || 0;
-    var limit = req.param('limit') || 10;
+    var page = parseInt(req.param('page')) - 1 || 0;
+    var limit = parseInt(req.param('limit')) || 10;
+    sails.log('limit', limit);
 
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
@@ -42,8 +44,11 @@ module.exports = {
     var criteria = {};
     if(search) criteria.where = prepareSearchWhere(schema, search);
     if(sort) criteria.sort = sort;
+    sails.log(criteria);
 
     model.find(criteria)
+      // .where(prepareSearchWhere(schema, search))
+      // .sort(sort)
       .paginate(page, limit)
       .then(function (items) {
         return model.count()
@@ -187,32 +192,32 @@ function prepareSchemaActions (model) {
   }
   return actions;
 }
-const numeral = require('numeral');
+
 function prepareSearchWhere (schema, query) {
   var model = sails.models[schema];
   var attrs = prepareSchemaAttributes(model);
   var where = {};
 
-  if (query) {
+  if (query && query.length > 0) {
     where.or = [];
     _.each(attrs, function (item, index) {
       // console.log(index);
       var type = item.type;
       var o = {};
       // Make sure we don't search on dates
-      if(type === 'number') {
+      /*if(type === 'number') {
         let number = numeral(query);
         if(!isNaN(number.value())) {
           o[index] = number.value();
           where.or.push(o);
         }
-      } else if (type !== 'datetime') {
+      } else */
+      if (type !== 'datetime' && type !== 'number') {
         o[index] = { contains: query };
         where.or.push(o);
       }
     });
   }
-
   // console.log(where);
   return where;
 }
