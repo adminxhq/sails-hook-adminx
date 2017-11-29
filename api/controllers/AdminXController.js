@@ -15,7 +15,7 @@ module.exports = {
     };
 
     _.each(sails.models, function (item, index) {
-      if (!item.meta.junctionTable) { //TODO: is this the best way to know if a model is a junctionTable?
+      if (!item.meta.junctionTable && index !== 'archive') { //TODO: is this the best way to know if a model is a junctionTable?
         var schema = {
           key: index,
           name: prepareSchemaName(item, index),
@@ -35,7 +35,7 @@ module.exports = {
     var search = req.param('search');
     var sort = req.param('sort');
     var page = parseInt(req.param('page')) - 1 || 0;
-    var limit = parseInt(req.param('limit')) || 10;
+    var limit = parseInt(req.param('limit')) || sails.config.adminx.defaults.listLimit || 10;
     sails.log('limit', limit);
 
     // Validation
