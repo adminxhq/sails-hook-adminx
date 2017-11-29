@@ -21,7 +21,11 @@ module.exports = function (sails) {
     defaults: {
       adminx: {
         authEnabled: true,
-        dataAuthToken: null
+        dataAuthToken: null,
+
+        defaults: {
+          listLimit: 10
+        },
       },
       routes: adminxRoutes.routes
 
@@ -39,35 +43,7 @@ module.exports = function (sails) {
      * https://next.sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/configure
      */
     configure: function () {
-      /*// Load policies under ./api/policies and config under ./config
-      // https://github.com/leeroybrun/sails-util-mvcsloader#loading-config--policies
-      loader.configure({
-        policies: __dirname + '/api/policies',// Path to the policies to load
-        config: __dirname + '/config' // Path to the config to load
-      });*/
 
-      //SAILS BUG: It seems sails OPTIONS requests don't return the headers configured on a per-route basis
-      //SOLUTION: Modify sails.config.headers on the fly to add ours
-      /*var headerName = 'adminx-data-auth-token';
-      if (sails.config.cors.allowRequestHeaders.indexOf(headerName) === -1) {
-        sails.config.cors.allowRequestHeaders += ',' + headerName;
-      } else {
-        sails.log('No CORS configuration found in your project. AdminX needs to configure it.');
-        sails.log('AdminX can\'t modify sails.config.cors, you will have to configure CORS this manually.');
-      }*/
-
-      /*
-       *
-       */
-      /*if(sails.config && sails.config.routes) {
-        var key = '/adminx*';
-        // sails.config.routes[key] = _.merge(sails.config.routes[key], adminxRoutes.routes[key]);
-        var routeCors = sails.config.routes[key].cors;
-        if(routeCors) {
-
-        }
-        console.log(sails.config.routes[key]);
-      }*/
     },
 
     /* -----------
@@ -84,18 +60,17 @@ module.exports = function (sails) {
       hook = this;
 
       //TODO: check if sails has enabled an ORM or throw an Error/Warning
+      sails.log('Waiting for orm');
 
-      /*// Load controllers under ./api/controllers and services under ./services
-      // https://github.com/leeroybrun/sails-util-mvcsloader#loading-models--controllers--services
-      loader.inject({
-        controllers: __dirname + '/api/controllers', // Path to the controllers to load
-        // services: __dirname + '/api/services' // Path to the services to load
-      }, function(err) {
-        // Signal that initialization of this hook is complete
-        // by calling the callback.
-        return cb(err);
-      });*/
-      cb();
+      var eventsToWaitFor = ['hook:orm:loaded'];
+      sails.after(eventsToWaitFor, function() {
+        // Finish initializing custom hook
+        sails.log('sails-hook-adminx: Initialized');
+
+        // Then call cb()
+        return cb();
+
+      });
     },
 
     /* -----------------
@@ -106,7 +81,8 @@ module.exports = function (sails) {
      * https://next.sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/register-actions
      */
     registerActions: function (cb) {
-      sails.log('No actions registered');
+      sails.log('sails-hook-adminx: Actions registered');
+      cb();
     },
 
     /*
