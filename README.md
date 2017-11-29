@@ -2,7 +2,6 @@
 [![Build Status](https://travis-ci.org/adminxhq/sails-hook-adminx.svg?branch=master)](https://travis-ci.org/adminxhq/sails-hook-adminx)
 [![dependencies Status](https://david-dm.org/adminxhq/sails-hook-adminx/status.svg)](https://david-dm.org/adminxhq/sails-hook-adminx)
 [![npm version](https://badge.fury.io/js/sails-hook-adminx.svg)](https://badge.fury.io/js/sails-hook-adminx) 
-[![Known Vulnerabilities](https://snyk.io/test/npm/sails-hook-adminx/badge.svg)](https://snyk.io/test/npm/sails-hook-adminx)
 [![Join the chat at https://gitter.im/adminxhq/sails-hook-adminx](https://badges.gitter.im/adminxhq/sails-hook-adminx.svg)](https://gitter.im/adminxhq/sails-hook-adminx?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter Follow](https://img.shields.io/twitter/follow/adminxhq.svg?style=social&maxAge=3600)](https://twitter.com/adminxhq)
 
@@ -18,8 +17,7 @@ We open sourced the demo app we use on the website:
 [Sails Demo Code](http://github.com/adminxhq/sails-demo)
 
 ### Requirements
-- for sails 1.0 use sails-hook-adminx@0.1
-- for sails 0.12 use sails-hook-adminx@0.0
+- Sails >0.12 or >1.0
 - Waterline: this integrations requires you to use the default Sails ORM
 
 ### What does sails-hook-adminx do under the bonnet?
@@ -32,7 +30,9 @@ An AdminX Panel is then able to connect from your browser to your server securel
 ### Install
 ```console
 # npm install sails-hook-adminx --save
-yarn add sails-hook-adminx
+yarn add sails-hook-adminx@^0.1.2 # Sails 1.0
+# or
+yarn add sails-hook-adminx@^0.0.10 # Sails 0.12
 ```
 
 ### Configure
