@@ -43,7 +43,7 @@ module.exports = function (sails) {
      * https://next.sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/configure
      */
     configure: function () {
-      sails.log('sails-hook-adminx: Configured');
+      sails.log('sails-hook-adminx:', 'Configured');
     },
 
     /* -----------
@@ -60,12 +60,12 @@ module.exports = function (sails) {
       hook = this;
 
       //TODO: check if sails has enabled an ORM or throw an Error/Warning
-      sails.log('sails-hook-adminx: Waiting for orm');
+      sails.log('sails-hook-adminx:', 'Waiting for orm');
 
       var eventsToWaitFor = ['hook:orm:loaded'];
       sails.after(eventsToWaitFor, function() {
         // Finish initializing custom hook
-        sails.log('sails-hook-adminx: Initialized');
+        sails.log('sails-hook-adminx:', 'Initialized');
 
         // Then call cb()
         return cb();
@@ -81,7 +81,7 @@ module.exports = function (sails) {
      * https://next.sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/register-actions
      */
     registerActions: function (cb) {
-      sails.log('sails-hook-adminx: Registered actions');
+      sails.log('sails-hook-adminx:', 'Registered actions');
       cb();
     },
 
