@@ -18,6 +18,7 @@ module.exports = {
       if (!item.meta.junctionTable && index !== 'archive') { //TODO: is this the best way to know if a model is a junctionTable?
         var schema = {
           key: index,
+          primaryKey: item.primaryKey,
           name: prepareSchemaName(item, index),
           attrs: prepareSchemaAttributes(item),
           actions: prepareSchemaActions(item)
@@ -36,7 +37,12 @@ module.exports = {
     var sort = req.param('sort');
     var page = parseInt(req.param('page')) - 1 || 0;
     var limit = parseInt(req.param('limit')) || sails.config.adminx.defaults.listLimit || 10;
-    sails.log('limit', limit);
+
+    sails.log.verbose('sails-hook-adminx:', 'schema', schema);
+    sails.log.verbose('sails-hook-adminx:', 'search', search);
+    sails.log.verbose('sails-hook-adminx:', 'sort', sort);
+    sails.log.verbose('sails-hook-adminx:', 'page', page);
+    sails.log.verbose('sails-hook-adminx:', 'limit', limit);
 
     // Validation
     if (!model) return res.badRequest('schema doesn\'t exist');
@@ -44,7 +50,7 @@ module.exports = {
     var criteria = {};
     if(search) criteria.where = prepareSearchWhere(schema, search);
     if(sort) criteria.sort = sort;
-    sails.log(criteria);
+    sails.log.verbose('sails-hook-adminx:', 'criteria', JSON.stringify(criteria));
 
     model.find(criteria)
       // .where(prepareSearchWhere(schema, search))
@@ -55,7 +61,7 @@ module.exports = {
           .then(function (count) {
             return {
               items: items,
-              pageIndex: (page - 1) * limit,
+              pageIndex: page * limit,
               pageTotal: Math.ceil(count / limit)
             };
           });
@@ -204,15 +210,7 @@ function prepareSearchWhere (schema, query) {
       // console.log(index);
       var type = item.type;
       var o = {};
-      // Make sure we don't search on dates
-      /*if(type === 'number') {
-        let number = numeral(query);
-        if(!isNaN(number.value())) {
-          o[index] = number.value();
-          where.or.push(o);
-        }
-      } else */
-      if (type !== 'datetime' && type !== 'number') {
+      if (type === 'string') {
         o[index] = { contains: query };
         where.or.push(o);
       }
@@ -220,6 +218,21 @@ function prepareSearchWhere (schema, query) {
   }
   // console.log(where);
   return where;
+}
+
+function prepareListDefaultSort (schema) {
+  var model = sails.models[schema];
+  var attrs = prepareSchemaAttributes(model);
+
+  // Search attribute displayed in the list
+  var attr = _.find(attrs, { list: true, type: string });
+
+  // Use id
+  if(!attr) {
+    attr = _.find(attrs, { primaryKey: true });
+  }
+
+  return attr;
 }
 
 function resultFilterAll (object) {
